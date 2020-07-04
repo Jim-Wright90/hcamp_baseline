@@ -2121,7 +2121,7 @@ t_sum_2 %>%
 
 ### Plot
 
-```{r, include=TRUE, fig.height=10, fig.width=10}
+```{r, include=TRUE, fig.height=12, fig.width=14}
 bt_plot
 ```
 
@@ -2129,9 +2129,9 @@ bt_plot
 
 ### Three Baseline Tests {.tabset .tabset-fade .tabset-pills}
 
-For individuals who completed three baseline tests, the verbal memory composite score was statistically significantly different, *F*(1.99, 5,822.57) = 236.46, *p* < .0001, generalized eta squared = 0.03. 
+For individuals who completed three baseline tests, performance on the verbal memory composite score was statistically significantly different, *F*(1.99, 5,822.57) = 236.46, *p* < .0001, generalized eta squared = 0.03. 
 
-Post-hoc analyses with a Bonferroni adjustment revelated that all pairwise comparisons, between baseline test administrations, were statistically significantly different (*p* < .05). 
+Post-hoc analyses with a Bonferroni adjustment revelated that all pairwise comparisons, between baseline test administrations, were statistically significantly different (*p* < .05). Individuals were identified to achieve the highest verbal memory score on the third baseline assessment (*M* = 86.52) compared to the second (*M* = 84.58) and first (*M* = 82.28) baseline administrations. 
 
 ```{r, include=FALSE}
 
@@ -2153,6 +2153,8 @@ box_p(three_mem_verbal_long, baseline_number, score)
 ```
 
 #### Outliers 
+
+There are no extreme outliers. 
 
 ```{r, include=FALSE}
 three_mem_verbal_outliers <- three_mem_verbal_long %>% 
@@ -2227,4 +2229,34 @@ box_p(three_mem_verbal_long, baseline_number, score) +
     subtitle = get_test_label(three_mem_verbal_res, detailed = TRUE),
     caption = get_pwc_label(three_mem_verbal_pwc)
   )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(three_mem_verbal, user_memory_composite_score_verbal_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(three_mem_verbal, user_memory_composite_score_verbal_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(three_mem_verbal, user_memory_composite_score_verbal_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(three_mem_verbal, user_memory_composite_score_verbal_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(three_mem_verbal, user_memory_composite_score_verbal_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(three_mem_verbal, user_memory_composite_score_verbal_3)
 ```
