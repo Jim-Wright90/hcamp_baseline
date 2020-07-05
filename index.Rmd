@@ -527,7 +527,7 @@ t_sum %>%
   reactable(columns = list(
     Level = colDef(name = "Level"),
     Total = colDef(name = "Total", 
-                   format = colFormat(separators = TRUE))),
+                   format = colFormat(separators = TRUE, suffix = " individuals"))),
     striped = TRUE,
     outlined = TRUE,
     compact = TRUE,
@@ -2111,7 +2111,7 @@ t_sum_2 %>%
   reactable(columns = list(
     Level = colDef(name = "Level"),
     Total = colDef(name = "Total", 
-                   format = colFormat(separators = TRUE))),
+                   format = colFormat(separators = TRUE, suffix = " individuals"))),
     striped = TRUE,
     outlined = TRUE,
     compact = TRUE,
@@ -2129,7 +2129,7 @@ bt_plot
 
 ### Three Baseline Tests {.tabset .tabset-fade .tabset-pills}
 
-For individuals who completed three baseline tests, performance on the verbal memory composite score was statistically significantly different, *F*(1.99, 5,822.57) = 236.46, *p* < .0001, generalized eta squared = 0.03. 
+For individuals who completed three baseline tests (*n* = 2,930), performance on the verbal memory composite score was statistically significantly different, *F*(1.99, 5,822.57) = 236.46, *p* < .0001, generalized eta squared = 0.03. 
 
 All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. All pairwise comparisons, between baseline test administrations, were statistically significantly different (*p* < .05). Individuals were identified to achieve the highest verbal memory score on the third baseline assessment (*M* = 86.52) compared to the second (*M* = 84.58) and first (*M* = 82.28) baseline administrations. 
 
@@ -2265,7 +2265,7 @@ score_hist(three_mem_verbal, user_memory_composite_score_verbal_3)
 
 ### Four Baseline Tests {.tabset .tabset-fade .tabset-pills}
 
-For individuals who completed four baseline tests, performance on the verbal memory composite score was statistically significantly different, *F*(3, 1,257) = 38.53, *p* < .0001, generalized eta squared = 0.04. 
+For individuals who completed four baseline tests (*n* = 420), performance on the verbal memory composite score was statistically significantly different, *F*(3, 1,257) = 38.53, *p* < .0001, generalized eta squared = 0.04. 
 
 All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. Five out of six pairwise comparisons, between baseline test administrations, were statistically significantly different (*p* < .05). Individuals were identified to achieve the highest verbal memory score on the fourth baseline assessment (*M* = 87.24). This score was significantly greater than the first (*M* = 82.19) and second (*M* = 83.70) baseline administrations; however, it was not significantly greater than the third baseline assessment (*M* = 86.08). All pairwise comparisons between the first, second, and third baseline test administrations were significantly different.  
 
@@ -2401,9 +2401,9 @@ score_hist(four_mem_verbal, user_memory_composite_score_verbal_4)
 
 ### Five Baseline Tests {.tabset .tabset-fade .tabset-pills}
 
-For individuals who completed five baseline tests, performance on the verbal memory composite score was statistically significantly different, *F*(4, 308) = 6.27, *p* < .0001, generalized eta squared = 0.03. 
+For individuals who completed five baseline tests (*n* = 78), performance on the verbal memory composite score was statistically significantly different, *F*(4, 308) = 6.27, *p* < .0001, generalized eta squared = 0.03. 
 
-All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. Only three out of ten pairwise comparisons were statistically significantly different. Individuals who both completed four (*M* = 84.1) and five (*M* = 85.77) baseline assessments were identified to perform significantly greater than individuals who completed one baseline assessment (*M* = 80.26). The third signficant difference was identified between the third and fifth baseline administrations, where performance on the fifth baseline assessment was signficantly greater than the third baseline assessment (*M* = 82.56). The remaining seven pairwise comparisons were not signficantly different. 
+All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. Only three out of ten pairwise comparisons were statistically significantly different. Individuals were identified to score significantly greater on both the fourth (*M* = 84.1) and fifth (*M* = 85.77) baseline assessment than on the first baseline assessment (*M* = 80.26). The third signficant difference was identified between the third and fifth baseline administrations, where performance on the fifth baseline assessment was signficantly greater than the third baseline assessment (*M* = 82.56). The remaining seven pairwise comparisons were not signficantly different. 
 
 ```{r, include=FALSE}
 five_mem_verbal_long <- five_mem_verbal %>% 
@@ -2543,6 +2543,421 @@ create_react(five_mem_verbal, user_memory_composite_score_verbal_5)
 ```{r, include=TRUE}
 score_hist(five_mem_verbal, user_memory_composite_score_verbal_5)
 ```
+
+
+## Visual Memory 
+
+### Three Baseline Tests {.tabset .tabset-fade .tabset-pills}
+
+For individuals who completed three baseline tests (*n* = 2,390), performance on the visual memory composite score was statistically significantly different, *F*(1.99, 5,821.49) = 355.72, *p* < .0001, generalized eta squared = 0.04. 
+
+All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. All pairwise comparisons, between baseline test administrations, were statistically significantly different (*p* < .05). Individuals were identified to achieve the highest visual memory score on the third baseline assessment (*M* = 78.75) compared to the second (*M* = 76.66) and first (*M* = 72.56) baseline administrations. 
+
+```{r, include=FALSE}
+
+three_mem_visual
+
+three_mem_visual_long <- three_mem_visual %>% 
+  pivot_longer(
+    cols = c(5:7),
+    names_to = "baseline_number",
+    names_prefix = "user_memory_composite_score_",
+    values_to = "score"
+  )
+```
+
+#### Boxplot
+
+```{r, include=TRUE}
+box_p(three_mem_visual_long, baseline_number, score)
+```
+
+#### Outliers 
+
+There are no extreme outliers. 
+
+```{r, include=FALSE}
+three_mem_visual_outliers <- three_mem_visual_long %>% 
+  group_by(baseline_number) %>% 
+  identify_outliers(score) %>% 
+  select(-c(3:5))
+```
+
+```{r, include=TRUE}
+three_mem_visual_outliers %>% 
+  reactable()
+```
+
+#### Normality Assumption
+
+From the plot, normality is assumed. 
+
+```{r, include=TRUE, fig.width=10}
+ggplot(three_mem_visual_long, aes(sample = score)) +
+  stat_qq(alpha = 0.3) +
+  stat_qq_line() +
+  facet_wrap(~baseline_number)
+```
+
+#### ANOVA Computation
+
+```{r, include=FALSE}
+three_mem_visual_res <- anova_test(three_mem_visual_long, 
+                                   dv = score,
+                                   wid = passport_id, 
+                                   within = baseline_number)
+
+```
+
+```{r, include=TRUE}
+get_anova_table(three_mem_visual_res)
+```
+
+#### Pairwise Comparisons 
+
+```{r, include=FALSE}
+three_mem_visual_pwc <- three_mem_visual_long %>% 
+  pairwise_t_test(
+    score ~ baseline_number, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+three_mem_visual_pwc
+```
+
+```{r, include=TRUE}
+three_mem_visual_pwc %>% 
+  reactable()
+```
+
+#### Result Visualization
+```{r, include=FALSE}
+three_mem_visual_pwc <- three_mem_visual_pwc %>% 
+  add_xy_position(x = "baseline number")
+```
+
+```{r, include=TRUE}
+box_p(three_mem_visual_long, baseline_number, score) +
+  stat_pvalue_manual(three_mem_visual_pwc) +
+  labs(
+    subtitle = get_test_label(three_mem_visual_res, detailed = TRUE),
+    caption = get_pwc_label(three_mem_visual_pwc)
+  )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(three_mem_visual, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(three_mem_visual, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(three_mem_visual, user_memory_composite_score_visual_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(three_mem_visual, user_memory_composite_score_visual_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(three_mem_visual, user_memory_composite_score_visual_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(three_mem_visual, user_memory_composite_score_visual_3)
+```
+
+
+### Four Baseline Tests {.tabset .tabset-fade .tabset-pills}
+
+For individuals who completed four baseline tests (*n* = 420), performance on the visual memory composite score was statistically significantly different, *F*(3, 1,257) = 54.66, *p* < .0001, generalized eta squared = 0.05. 
+
+All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. All six pairwise comparisons between baseline test administrations were statistically significantly different (*p* < .05). Individuals were identified to achieve the highest visual memory score on the fourth baseline assessment (*M* = 80.50). This score was significantly greater than the first (*M* = 73.09), second (*M* = 76.46), and third (*M* = 78.66) baseline administrations. All pairwise comparisons between the first, second, and third baseline test administrations were significantly different.  
+
+```{r, include=FALSE}
+four_mem_visual_long <- four_mem_visual %>% 
+  pivot_longer(
+    cols = c(6:9),
+    names_to = "baseline_number",
+    names_prefix = "user_memory_composite_score_",
+    values_to = "score"
+  )
+```
+
+#### Boxplot
+
+```{r, include=TRUE}
+box_p(four_mem_visual_long, baseline_number, score)
+```
+
+#### Outliers 
+
+There are no extreme outliers. 
+
+```{r, include=FALSE}
+four_mem_visual_outliers <- four_mem_visual_long %>% 
+  group_by(baseline_number) %>% 
+  identify_outliers(score) %>% 
+  select(-c(3:6))
+```
+
+```{r, include=TRUE}
+four_mem_visual_outliers %>% 
+  reactable()
+```
+
+#### Normality Assumption
+
+From the plot, normality is assumed. 
+
+```{r, include=TRUE, fig.width=10}
+ggplot(four_mem_visual_long, aes(sample = score)) +
+  stat_qq(alpha = 0.3) +
+  stat_qq_line() +
+  facet_wrap(~baseline_number)
+```
+
+#### ANOVA Computation
+
+```{r, include=FALSE}
+four_mem_visual_res <- anova_test(four_mem_visual_long, 
+                                   dv = score,
+                                   wid = passport_id, 
+                                   within = baseline_number)
+
+```
+
+```{r, include=TRUE}
+get_anova_table(four_mem_visual_res) 
+```
+
+#### Pairwise Comparisons 
+
+```{r, include=FALSE}
+four_mem_visual_pwc <- four_mem_visual_long %>% 
+  pairwise_t_test(
+    score ~ baseline_number, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+four_mem_visual_pwc
+```
+
+```{r, include=TRUE}
+four_mem_visual_pwc %>% 
+  reactable()
+```
+
+#### Result Visualization
+```{r, include=FALSE}
+four_mem_visual_pwc <- four_mem_visual_pwc %>% 
+  add_xy_position(x = "baseline number")
+```
+
+```{r, include=TRUE}
+box_p(four_mem_visual_long, baseline_number, score) +
+  stat_pvalue_manual(four_mem_visual_pwc) +
+  labs(
+    subtitle = get_test_label(four_mem_visual_res, detailed = TRUE),
+    caption = get_pwc_label(four_mem_visual_pwc)
+  )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(four_mem_visual, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(four_mem_visual, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(four_mem_visual, user_memory_composite_score_visual_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(four_mem_visual, user_memory_composite_score_visual_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(four_mem_visual, user_memory_composite_score_visual_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(four_mem_visual, user_memory_composite_score_visual_3)
+```
+
+#### Baseline 4 Summary
+```{r, include=TRUE}
+create_react(four_mem_visual, user_memory_composite_score_visual_4)
+```
+
+#### Baseline 4 Histogram 
+```{r, include=TRUE}
+score_hist(four_mem_visual, user_memory_composite_score_visual_4)
+```
+
+
+### Five Baseline Tests {.tabset .tabset-fade .tabset-pills}
+
+For individuals who completed five baseline tests (*n* = 78), performance on the visual memory composite score was statistically significantly different, *F*(4, 308) = 9.56, *p* < .0001, generalized eta squared = 0.04. 
+
+All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. Only three out of ten pairwise comparisons were statistically significantly different. Individuals were identified to score significantly greater on the third (*M* = 77.27), fourth (*M* = 78.26), and fifth (*M* = 79.42) baseline assessment than on the first baseline assessment (*M* = 71.79). The remaining seven pairwise comparisons were not signficantly different. 
+
+```{r, include=FALSE}
+five_mem_visual_long <- five_mem_visual %>% 
+  pivot_longer(
+    cols = c(7:11),
+    names_to = "baseline_number",
+    names_prefix = "user_memory_composite_score_",
+    values_to = "score"
+  )
+```
+
+#### Boxplot
+
+```{r, include=TRUE}
+box_p(five_mem_visual_long, baseline_number, score)
+```
+
+#### Outliers 
+
+There are no extreme outliers. 
+
+```{r, include=FALSE}
+five_mem_visual_outliers <- five_mem_visual_long %>% 
+  group_by(baseline_number) %>% 
+  identify_outliers(score) %>% 
+  select(-c(3:7))
+```
+
+```{r, include=TRUE}
+five_mem_visual_outliers %>% 
+  reactable()
+```
+
+#### Normality Assumption
+
+From the plot, normality is assumed. 
+
+```{r, include=TRUE, fig.width=10}
+ggplot(five_mem_visual_long, aes(sample = score)) +
+  stat_qq(alpha = 0.3) +
+  stat_qq_line() +
+  facet_wrap(~baseline_number)
+```
+
+#### ANOVA Computation
+
+```{r, include=FALSE}
+five_mem_visual_res <- anova_test(five_mem_visual_long, 
+                                   dv = score,
+                                   wid = passport_id, 
+                                   within = baseline_number)
+
+```
+
+```{r, include=TRUE}
+get_anova_table(five_mem_visual_res)
+```
+
+#### Pairwise Comparisons 
+
+```{r, include=FALSE}
+five_mem_visual_pwc <- five_mem_visual_long %>% 
+  pairwise_t_test(
+    score ~ baseline_number, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+five_mem_visual_pwc
+```
+
+```{r, include=TRUE}
+five_mem_visual_pwc %>% 
+  reactable()
+```
+
+#### Result Visualization
+```{r, include=FALSE}
+five_mem_visual_pwc <- five_mem_visual_pwc %>% 
+  add_xy_position(x = "baseline number")
+```
+
+```{r, include=TRUE}
+box_p(five_mem_visual_long, baseline_number, score) +
+  stat_pvalue_manual(five_mem_visual_pwc) +
+  labs(
+    subtitle = get_test_label(five_mem_visual_res, detailed = TRUE),
+    caption = get_pwc_label(five_mem_visual_pwc)
+  )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(five_mem_visual, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(five_mem_visual, user_memory_composite_score_visual_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(five_mem_visual, user_memory_composite_score_visual_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(five_mem_visual, user_memory_composite_score_visual_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(five_mem_visual, user_memory_composite_score_visual_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(five_mem_visual, user_memory_composite_score_visual_3)
+```
+
+#### Baseline 4 Summary
+```{r, include=TRUE}
+create_react(five_mem_visual, user_memory_composite_score_visual_4)
+```
+
+#### Baseline 4 Histogram 
+```{r, include=TRUE}
+score_hist(five_mem_visual, user_memory_composite_score_visual_4)
+```
+
+#### Baseline 5 Summary
+```{r, include=TRUE}
+create_react(five_mem_visual, user_memory_composite_score_visual_5)
+```
+
+#### Baseline 5 Histogram 
+```{r, include=TRUE}
+score_hist(five_mem_visual, user_memory_composite_score_visual_5)
+```
+
+
 
 
 
