@@ -2154,13 +2154,19 @@ box_p(three_mem_verbal_long, baseline_number, score)
 
 #### Outliers 
 
-There are no extreme outliers. 
+Of the 54 scores identified to be outliers, none are considered extreme.  
 
 ```{r, include=FALSE}
 three_mem_verbal_outliers <- three_mem_verbal_long %>% 
   group_by(baseline_number) %>% 
   identify_outliers(score) %>% 
   select(-c(3:5))
+
+three_mem_verbal_outliers %>% 
+  count(is.outlier)
+
+three_mem_verbal_outliers %>% 
+  count(is.extreme)
 ```
 
 ```{r, include=TRUE}
@@ -2287,13 +2293,19 @@ box_p(four_mem_verbal_long, baseline_number, score)
 
 #### Outliers 
 
-There are no extreme outliers. 
+Of the 9 scores identified to be outliers, none are considered extreme. 
 
 ```{r, include=FALSE}
 four_mem_verbal_outliers <- four_mem_verbal_long %>% 
   group_by(baseline_number) %>% 
   identify_outliers(score) %>% 
   select(-c(3:6))
+
+four_mem_verbal_outliers %>% 
+  count(is.outlier)
+
+four_mem_verbal_outliers %>% 
+  count(is.extreme)
 ```
 
 ```{r, include=TRUE}
@@ -2423,13 +2435,18 @@ box_p(five_mem_verbal_long, baseline_number, score)
 
 #### Outliers 
 
-There are no extreme outliers. 
+Of the two scores identified to be outliers, neither are considered extreme. 
 
 ```{r, include=FALSE}
 five_mem_verbal_outliers <- five_mem_verbal_long %>% 
   group_by(baseline_number) %>% 
   identify_outliers(score) %>% 
   select(-c(3:7))
+
+five_mem_verbal_outliers %>% 
+  count(is.outlier)
+
+five_mem_verbal_outliers$is.extreme
 ```
 
 ```{r, include=TRUE}
@@ -2574,13 +2591,19 @@ box_p(three_mem_visual_long, baseline_number, score)
 
 #### Outliers 
 
-There are no extreme outliers. 
+Of the 54 scores identified to be outliers, none are considered extreme. 
 
 ```{r, include=FALSE}
 three_mem_visual_outliers <- three_mem_visual_long %>% 
   group_by(baseline_number) %>% 
   identify_outliers(score) %>% 
   select(-c(3:5))
+
+three_mem_visual_outliers %>% 
+  count(is.outlier)
+
+three_mem_visual_outliers %>% 
+  count(is.extreme)
 ```
 
 ```{r, include=TRUE}
@@ -2700,13 +2723,19 @@ box_p(four_mem_visual_long, baseline_number, score)
 
 #### Outliers 
 
-There are no extreme outliers. 
+Of the 4 scores identified to be outliers, none are considered extreme. 
 
 ```{r, include=FALSE}
 four_mem_visual_outliers <- four_mem_visual_long %>% 
   group_by(baseline_number) %>% 
   identify_outliers(score) %>% 
   select(-c(3:6))
+
+four_mem_visual_outliers %>% 
+  count(is.outlier)
+
+four_mem_visual_outliers %>% 
+  count(is.extreme)
 ```
 
 ```{r, include=TRUE}
@@ -2836,13 +2865,19 @@ box_p(five_mem_visual_long, baseline_number, score)
 
 #### Outliers 
 
-There are no extreme outliers. 
+One score was identified as an outlier and is not considered extreme. 
 
 ```{r, include=FALSE}
 five_mem_visual_outliers <- five_mem_visual_long %>% 
   group_by(baseline_number) %>% 
   identify_outliers(score) %>% 
   select(-c(3:7))
+
+five_mem_visual_outliers %>% 
+  count(is.outlier)
+
+five_mem_visual_outliers %>% 
+  count(is.extreme)
 ```
 
 ```{r, include=TRUE}
@@ -2957,6 +2992,1300 @@ create_react(five_mem_visual, user_memory_composite_score_visual_5)
 score_hist(five_mem_visual, user_memory_composite_score_visual_5)
 ```
 
+
+## Impulse Control 
+
+### Three Baseline Tests {.tabset .tabset-fade .tabset-pills}
+
+For individuals who completed three baseline tests (*n* = 2,390), performance on the impulse control composite score was statistically significantly different, *F*(1.98, 5,791.14) = 10.29, *p* < .0001, generalized eta squared = 0.001. 
+
+All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. Two out of three pairwise comparisons, between baseline test administrations, were statistically significantly different (*p* < .05). Individuals were identified to achieve the highest impulse control score on the first baseline assessment (*M* = 7.48) compared to the second (*M* = 7.33) and third (*M* = 7.04) baseline administrations. The difference in scores between the first and second baseline administrations was not significant, while the differences between both the first and third and second and third baseline administrations were significant. 
+
+```{r, include=FALSE}
+
+three_impulse_control
+
+three_impulse_control_long <- three_impulse_control %>% 
+  pivot_longer(
+    cols = c(5:7),
+    names_to = "baseline_number",
+    names_prefix = "user_impulse_control_composite_",
+    values_to = "score"
+  )
+```
+
+#### Boxplot
+
+```{r, include=TRUE}
+box_p(three_impulse_control_long, baseline_number, score)
+```
+
+#### Outliers 
+
+Of the 404 scores determined to be outliers, 44 are considered extreme. 
+
+```{r, include=FALSE}
+three_impulse_control_outliers <- three_impulse_control_long %>% 
+  group_by(baseline_number) %>% 
+  identify_outliers(score) %>% 
+  select(-c(3:5))
+
+three_impulse_control_outliers %>% 
+  count(is.extreme)
+
+three_impulse_control_outliers %>% 
+  count(is.outlier)
+```
+
+```{r, include=TRUE}
+three_impulse_control_outliers %>% 
+  reactable()
+```
+
+#### Normality Assumption
+
+From the plot, the extreme outliers affect the normality of the distribution. 
+
+```{r, include=TRUE, fig.width=10}
+ggplot(three_impulse_control_long, aes(sample = score)) +
+  stat_qq(alpha = 0.3) +
+  stat_qq_line() +
+  facet_wrap(~baseline_number)
+```
+
+#### ANOVA Computation
+
+```{r, include=FALSE}
+three_impulse_control_res <- anova_test(three_impulse_control_long, 
+                                   dv = score,
+                                   wid = passport_id, 
+                                   within = baseline_number)
+
+```
+
+```{r, include=TRUE}
+get_anova_table(three_impulse_control_res)
+```
+
+#### Pairwise Comparisons 
+
+```{r, include=FALSE}
+three_impulse_control_pwc <- three_impulse_control_long %>% 
+  pairwise_t_test(
+    score ~ baseline_number, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+three_impulse_control_pwc
+```
+
+```{r, include=TRUE}
+three_impulse_control_pwc %>% 
+  reactable()
+```
+
+#### Result Visualization
+```{r, include=FALSE}
+three_impulse_control_pwc <- three_impulse_control_pwc %>% 
+  add_xy_position(x = "baseline number")
+```
+
+```{r, include=TRUE}
+box_p(three_impulse_control_long, baseline_number, score) +
+  stat_pvalue_manual(three_impulse_control_pwc) +
+  labs(
+    subtitle = get_test_label(three_impulse_control_res, detailed = TRUE),
+    caption = get_pwc_label(three_impulse_control_pwc)
+  )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(three_impulse_control, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(three_impulse_control, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(three_impulse_control, user_impulse_control_composite_score_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(three_impulse_control, user_impulse_control_composite_score_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(three_impulse_control, user_impulse_control_composite_score_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(three_impulse_control, user_impulse_control_composite_score_3)
+```
+
+
+### Four Baseline Tests {.tabset .tabset-fade .tabset-pills}
+
+For individuals who completed four baseline tests (*n* = 420), performance on the impulse control composite score was not statistically significantly different, *F*(2.78, 1,163.54) = 0.31, *p* = .8, generalized eta squared = 0.00031. 
+
+```{r, include=FALSE}
+four_impulse_control_long <- four_impulse_control %>% 
+  pivot_longer(
+    cols = c(6:9),
+    names_to = "baseline_number",
+    names_prefix = "user_impulse_control_composite_",
+    values_to = "score"
+  )
+```
+
+#### Boxplot
+
+```{r, include=TRUE}
+box_p(four_impulse_control_long, baseline_number, score)
+```
+
+#### Outliers 
+
+Of the 60 scores determined to be outliers, 8 are considered extreme outliers. 
+
+```{r, include=FALSE}
+four_impulse_control_outliers <- four_impulse_control_long %>% 
+  group_by(baseline_number) %>% 
+  identify_outliers(score) %>% 
+  select(-c(3:6))
+
+four_impulse_control_outliers %>% 
+  count(is.extreme)
+
+four_impulse_control_outliers %>% 
+  count(is.outlier)
+```
+
+```{r, include=TRUE}
+four_impulse_control_outliers %>% 
+  reactable()
+```
+
+#### Normality Assumption
+
+From the plot, the extreme outliers affect the normality of the distribution. 
+
+```{r, include=TRUE, fig.width=10}
+ggplot(four_impulse_control_long, aes(sample = score)) +
+  stat_qq(alpha = 0.3) +
+  stat_qq_line() +
+  facet_wrap(~baseline_number)
+```
+
+#### ANOVA Computation
+
+```{r, include=FALSE}
+four_impulse_control_res <- anova_test(four_impulse_control_long, 
+                                   dv = score,
+                                   wid = passport_id, 
+                                   within = baseline_number)
+
+```
+
+```{r, include=TRUE}
+get_anova_table(four_impulse_control_res) 
+```
+
+#### Pairwise Comparisons 
+
+```{r, include=FALSE}
+four_impulse_control_pwc <- four_impulse_control_long %>% 
+  pairwise_t_test(
+    score ~ baseline_number, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+four_impulse_control_pwc
+```
+
+```{r, include=TRUE}
+four_impulse_control_pwc %>% 
+  reactable()
+```
+
+#### Result Visualization
+```{r, include=FALSE}
+four_impulse_control_pwc <- four_impulse_control_pwc %>% 
+  add_xy_position(x = "baseline number")
+```
+
+```{r, include=TRUE}
+box_p(four_impulse_control_long, baseline_number, score) +
+  stat_pvalue_manual(four_impulse_control_pwc) +
+  labs(
+    subtitle = get_test_label(four_impulse_control_res, detailed = TRUE),
+    caption = get_pwc_label(four_impulse_control_pwc)
+  )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(four_impulse_control, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(four_impulse_control, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(four_impulse_control, user_impulse_control_composite_score_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(four_impulse_control, user_impulse_control_composite_score_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(four_impulse_control, user_impulse_control_composite_score_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(four_impulse_control, user_impulse_control_composite_score_3)
+```
+
+#### Baseline 4 Summary
+```{r, include=TRUE}
+create_react(four_impulse_control, user_impulse_control_composite_score_4)
+```
+
+#### Baseline 4 Histogram 
+```{r, include=TRUE}
+score_hist(four_impulse_control, user_impulse_control_composite_score_4)
+```
+
+
+### Five Baseline Tests {.tabset .tabset-fade .tabset-pills}
+
+For individuals who completed five baseline tests (*n* = 78), performance on the impulse control composite score was not statistically significantly different, *F*(3.28, 252.5) = 0.79, *p* = .51, generalized eta squared = 0.005. 
+
+```{r, include=FALSE}
+five_impulse_control_long <- five_impulse_control %>% 
+  pivot_longer(
+    cols = c(7:11),
+    names_to = "baseline_number",
+    names_prefix = "user_impulse_control_composite_",
+    values_to = "score"
+  )
+```
+
+#### Boxplot
+
+```{r, include=TRUE}
+box_p(five_impulse_control_long, baseline_number, score)
+```
+
+#### Outliers 
+
+Of the 12 scores identified to be outliers, 4 are considered extreme. 
+
+```{r, include=FALSE}
+five_impulse_control_outliers <- five_impulse_control_long %>% 
+  group_by(baseline_number) %>% 
+  identify_outliers(score) %>% 
+  select(-c(3:7))
+
+five_impulse_control_outliers %>% 
+  count(is.outlier)
+
+five_impulse_control_outliers %>% 
+  count(is.extreme)
+```
+
+```{r, include=TRUE}
+five_impulse_control_outliers %>% 
+  reactable()
+```
+
+#### Normality Assumption
+
+From the plot, normality is assumed. 
+
+```{r, include=TRUE, fig.width=10}
+ggplot(five_impulse_control_long, aes(sample = score)) +
+  stat_qq(alpha = 0.3) +
+  stat_qq_line() +
+  facet_wrap(~baseline_number)
+```
+
+#### ANOVA Computation
+
+```{r, include=FALSE}
+five_impulse_control_res <- anova_test(five_impulse_control_long, 
+                                   dv = score,
+                                   wid = passport_id, 
+                                   within = baseline_number)
+
+```
+
+```{r, include=TRUE}
+get_anova_table(five_impulse_control_res)
+```
+
+#### Pairwise Comparisons 
+
+```{r, include=FALSE}
+five_impulse_control_pwc <- five_impulse_control_long %>% 
+  pairwise_t_test(
+    score ~ baseline_number, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+five_impulse_control_pwc
+```
+
+```{r, include=TRUE}
+five_impulse_control_pwc %>% 
+  reactable()
+```
+
+#### Result Visualization
+```{r, include=FALSE}
+five_impulse_control_pwc <- five_impulse_control_pwc %>% 
+  add_xy_position(x = "baseline number")
+```
+
+```{r, include=TRUE}
+box_p(five_impulse_control_long, baseline_number, score) +
+  stat_pvalue_manual(five_impulse_control_pwc) +
+  labs(
+    subtitle = get_test_label(five_impulse_control_res, detailed = TRUE),
+    caption = get_pwc_label(five_impulse_control_pwc)
+  )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(five_impulse_control, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(five_impulse_control, user_impulse_control_composite_score_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(five_impulse_control, user_impulse_control_composite_score_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(five_impulse_control, user_impulse_control_composite_score_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(five_impulse_control, user_impulse_control_composite_score_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(five_impulse_control, user_impulse_control_composite_score_3)
+```
+
+#### Baseline 4 Summary
+```{r, include=TRUE}
+create_react(five_impulse_control, user_impulse_control_composite_score_4)
+```
+
+#### Baseline 4 Histogram 
+```{r, include=TRUE}
+score_hist(five_impulse_control, user_impulse_control_composite_score_4)
+```
+
+#### Baseline 5 Summary
+```{r, include=TRUE}
+create_react(five_impulse_control, user_impulse_control_composite_score_5)
+```
+
+#### Baseline 5 Histogram 
+```{r, include=TRUE}
+score_hist(five_impulse_control, user_impulse_control_composite_score_5)
+```
+
+
+## Reaction Time 
+
+### Three Baseline Tests {.tabset .tabset-fade .tabset-pills}
+
+For individuals who completed three baseline tests (*n* = 2,390), performance on the reaction time composite score was statistically significantly different, *F*(1.97, 5,776.39) = 213.61, *p* < .0001, generalized eta squared = 0.03. 
+
+All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. All pairwise comparisons, between baseline test administrations, were statistically significantly different (*p* < .05). Individuals were identified to achieve their best reaction time score on the third baseline administration (*M* = 0.61) compared to the second (*M* = 0.62) and first (*M* = 0.65) baseline administrations. The difference in average performance between the first and second baseline administration was additionally significant. 
+
+```{r, include=FALSE}
+
+three_reaction_time
+
+three_reaction_time_long <- three_reaction_time %>% 
+  pivot_longer(
+    cols = c(5:7),
+    names_to = "baseline_number",
+    names_prefix = "user_reaction_time_composite_",
+    values_to = "score"
+  )
+```
+
+#### Boxplot
+
+```{r, include=TRUE}
+box_p(three_reaction_time_long, baseline_number, score)
+```
+
+#### Outliers 
+
+Of the 259 scores identified to be outliers, 47 are considered extreme. 
+
+```{r, include=FALSE}
+three_reaction_time_outliers <- three_reaction_time_long %>% 
+  group_by(baseline_number) %>% 
+  identify_outliers(score) %>% 
+  select(-c(3:5))
+
+three_reaction_time_outliers %>% 
+  count(is.outlier)
+
+three_reaction_time_outliers %>% 
+  count(is.extreme)
+```
+
+```{r, include=TRUE}
+three_reaction_time_outliers %>% 
+  reactable()
+```
+
+#### Normality Assumption
+
+From the plot, the extreme outliers appear to affect normality. 
+
+```{r, include=TRUE, fig.width=10}
+ggplot(three_reaction_time_long, aes(sample = score)) +
+  stat_qq(alpha = 0.3) +
+  stat_qq_line() +
+  facet_wrap(~baseline_number)
+```
+
+#### ANOVA Computation
+
+```{r, include=FALSE}
+three_reaction_time_res <- anova_test(three_reaction_time_long, 
+                                   dv = score,
+                                   wid = passport_id, 
+                                   within = baseline_number)
+
+```
+
+```{r, include=TRUE}
+get_anova_table(three_reaction_time_res)
+```
+
+#### Pairwise Comparisons 
+
+```{r, include=FALSE}
+three_reaction_time_pwc <- three_reaction_time_long %>% 
+  pairwise_t_test(
+    score ~ baseline_number, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+three_reaction_time_pwc
+```
+
+```{r, include=TRUE}
+three_reaction_time_pwc %>% 
+  reactable()
+```
+
+#### Result Visualization
+```{r, include=FALSE}
+three_reaction_time_pwc <- three_reaction_time_pwc %>% 
+  add_xy_position(x = "baseline number")
+```
+
+```{r, include=TRUE}
+box_p(three_reaction_time_long, baseline_number, score) +
+  stat_pvalue_manual(three_reaction_time_pwc) +
+  labs(
+    subtitle = get_test_label(three_reaction_time_res, detailed = TRUE),
+    caption = get_pwc_label(three_reaction_time_pwc)
+  )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(three_reaction_time, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(three_reaction_time, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(three_reaction_time, user_reaction_time_composite_score_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(three_reaction_time, user_reaction_time_composite_score_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(three_reaction_time, user_reaction_time_composite_score_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(three_reaction_time, user_reaction_time_composite_score_3)
+```
+
+
+### Four Baseline Tests {.tabset .tabset-fade .tabset-pills}
+
+For individuals who completed four baseline tests (*n* = 420), performance on the reaction time composite score was statistically significantly different, *F*(2.78, 1,164.47) = 27.98, *p* < .0001, generalized eta squared = 0.03. 
+
+All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. Five out of six pairwise comparisons between baseline test administrations were statistically significantly different (*p* < .05). Individuals were identified to achieve their greatest reaction time score on the fourth baseline administration (*M* = 0.60) compared to the third (*M* = 0.62), second (*M* = 0.64) and first (*M* = 0.64) baseline administrations. The only non-significant comparison was between the first and second baseline administrations. 
+
+```{r, include=FALSE}
+four_reaction_time_long <- four_reaction_time %>% 
+  pivot_longer(
+    cols = c(6:9),
+    names_to = "baseline_number",
+    names_prefix = "user_reaction_time_composite_",
+    values_to = "score"
+  )
+```
+
+#### Boxplot
+
+```{r, include=TRUE}
+box_p(four_reaction_time_long, baseline_number, score)
+```
+
+#### Outliers 
+
+Of the 55 scores identified to be outliers, 10 are considered extreme. 
+
+```{r, include=FALSE}
+four_reaction_time_outliers <- four_reaction_time_long %>% 
+  group_by(baseline_number) %>% 
+  identify_outliers(score) %>% 
+  select(-c(3:6))
+
+four_reaction_time_outliers %>% 
+  count(is.outlier)
+
+four_reaction_time_outliers %>% 
+  count(is.extreme)
+```
+
+```{r, include=TRUE}
+four_reaction_time_outliers %>% 
+  reactable()
+```
+
+#### Normality Assumption
+
+From the plot, the extreme outliers appear to affect normality.  
+
+```{r, include=TRUE, fig.width=10}
+ggplot(four_reaction_time_long, aes(sample = score)) +
+  stat_qq(alpha = 0.3) +
+  stat_qq_line() +
+  facet_wrap(~baseline_number)
+```
+
+#### ANOVA Computation
+
+```{r, include=FALSE}
+four_reaction_time_res <- anova_test(four_reaction_time_long, 
+                                   dv = score,
+                                   wid = passport_id, 
+                                   within = baseline_number)
+
+```
+
+```{r, include=TRUE}
+get_anova_table(four_reaction_time_res) 
+```
+
+#### Pairwise Comparisons 
+
+```{r, include=FALSE}
+four_reaction_time_pwc <- four_reaction_time_long %>% 
+  pairwise_t_test(
+    score ~ baseline_number, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+four_reaction_time_pwc
+```
+
+```{r, include=TRUE}
+four_reaction_time_pwc %>% 
+  reactable()
+```
+
+#### Result Visualization
+```{r, include=FALSE}
+four_reaction_time_pwc <- four_reaction_time_pwc %>% 
+  add_xy_position(x = "baseline number")
+```
+
+```{r, include=TRUE}
+box_p(four_reaction_time_long, baseline_number, score) +
+  stat_pvalue_manual(four_reaction_time_pwc) +
+  labs(
+    subtitle = get_test_label(four_reaction_time_res, detailed = TRUE),
+    caption = get_pwc_label(four_reaction_time_pwc)
+  )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(four_reaction_time, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(four_reaction_time, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(four_reaction_time, user_reaction_time_composite_score_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(four_reaction_time, user_reaction_time_composite_score_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(four_reaction_time, user_reaction_time_composite_score_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(four_reaction_time, user_reaction_time_composite_score_3)
+```
+
+#### Baseline 4 Summary
+```{r, include=TRUE}
+create_react(four_reaction_time, user_reaction_time_composite_score_4)
+```
+
+#### Baseline 4 Histogram 
+```{r, include=TRUE}
+score_hist(four_reaction_time, user_reaction_time_composite_score_4)
+```
+
+
+### Five Baseline Tests {.tabset .tabset-fade .tabset-pills}
+
+For individuals who completed five baseline tests (*n* = 78), performance on the reaction time composite score was statistically significantly different, *F*(3.61, 277.92) = 10.56, *p* < .0001, generalized eta squared = 0.06. 
+
+All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. Six out of ten pairwise comparisons were statistically significantly different. Individuals were identified to achieve significantly greater reaction time scores on their third (*M* = 0.62), fourth (*M* = 0.61), and fifth (*M* = 0.60) baseline administrations compared to their first (*M* = 0.65) and second (*M* = 0.65) baseline administrations. Performance was not significanlty different between the first and second baseline administrations. It was additionally not significant between the third, fourth, and fifth baseline administrations. 
+
+```{r, include=FALSE}
+five_reaction_time_long <- five_reaction_time %>% 
+  pivot_longer(
+    cols = c(7:11),
+    names_to = "baseline_number",
+    names_prefix = "user_reaction_time_composite_",
+    values_to = "score"
+  )
+```
+
+#### Boxplot
+
+```{r, include=TRUE}
+box_p(five_reaction_time_long, baseline_number, score)
+```
+
+#### Outliers 
+
+Of the 15 scores identified as outliers, 3 were considered extreme.  
+
+```{r, include=FALSE}
+five_reaction_time_outliers <- five_reaction_time_long %>% 
+  group_by(baseline_number) %>% 
+  identify_outliers(score) %>% 
+  select(-c(3:7))
+
+five_reaction_time_outliers %>% 
+  count(is.outlier)
+
+five_reaction_time_outliers %>% 
+  count(is.extreme)
+```
+
+```{r, include=TRUE}
+five_reaction_time_outliers %>% 
+  reactable()
+```
+
+#### Normality Assumption
+
+From the plot, the assumption of normality is threatened by extreme outliers on the second, fourth, and fifth baseline scores. 
+
+```{r, include=TRUE, fig.width=10}
+ggplot(five_reaction_time_long, aes(sample = score)) +
+  stat_qq(alpha = 0.3) +
+  stat_qq_line() +
+  facet_wrap(~baseline_number)
+```
+
+#### ANOVA Computation
+
+```{r, include=FALSE}
+five_reaction_time_res <- anova_test(five_reaction_time_long, 
+                                   dv = score,
+                                   wid = passport_id, 
+                                   within = baseline_number)
+
+```
+
+```{r, include=TRUE}
+get_anova_table(five_reaction_time_res)
+```
+
+#### Pairwise Comparisons 
+
+```{r, include=FALSE}
+five_reaction_time_pwc <- five_reaction_time_long %>% 
+  pairwise_t_test(
+    score ~ baseline_number, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+five_reaction_time_pwc
+```
+
+```{r, include=TRUE}
+five_reaction_time_pwc %>% 
+  reactable()
+```
+
+#### Result Visualization
+```{r, include=FALSE}
+five_reaction_time_pwc <- five_reaction_time_pwc %>% 
+  add_xy_position(x = "baseline number")
+```
+
+```{r, include=TRUE}
+box_p(five_reaction_time_long, baseline_number, score) +
+  stat_pvalue_manual(five_reaction_time_pwc) +
+  labs(
+    subtitle = get_test_label(five_reaction_time_res, detailed = TRUE),
+    caption = get_pwc_label(five_reaction_time_pwc)
+  )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(five_reaction_time, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(five_reaction_time, user_reaction_time_composite_score_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(five_reaction_time, user_reaction_time_composite_score_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(five_reaction_time, user_reaction_time_composite_score_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(five_reaction_time, user_reaction_time_composite_score_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(five_reaction_time, user_reaction_time_composite_score_3)
+```
+
+#### Baseline 4 Summary
+```{r, include=TRUE}
+create_react(five_reaction_time, user_reaction_time_composite_score_4)
+```
+
+#### Baseline 4 Histogram 
+```{r, include=TRUE}
+score_hist(five_reaction_time, user_reaction_time_composite_score_4)
+```
+
+#### Baseline 5 Summary
+```{r, include=TRUE}
+create_react(five_reaction_time, user_reaction_time_composite_score_5)
+```
+
+#### Baseline 5 Histogram 
+```{r, include=TRUE}
+score_hist(five_reaction_time, user_reaction_time_composite_score_5)
+```
+
+
+## Visual Motor 
+
+### Three Baseline Tests {.tabset .tabset-fade .tabset-pills}
+
+For individuals who completed three baseline tests (*n* = 2,390), performance on the visual motor composite score was statistically significantly different, *F*(1.96, 5,745.48) = 1,959.31, *p* < .0001, generalized eta squared = 0.13. 
+
+All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. All pairwise comparisons, between baseline test administrations, were statistically significantly different (*p* < .05). Individuals were identified to achieve their best visual motor score on the third baseline administration (*M* = 39.54) compared to the second (*M* = 36.89) and first (*M* = 33.27) baseline administrations. The difference in average performance between the first and second baseline administration was additionally significant. 
+
+```{r, include=FALSE}
+
+three_visual_motor
+
+three_visual_motor_long <- three_visual_motor %>% 
+  pivot_longer(
+    cols = c(5:7),
+    names_to = "baseline_number",
+    names_prefix = "user_visual_motor_composite_",
+    values_to = "score"
+  )
+```
+
+#### Boxplot
+
+```{r, include=TRUE}
+box_p(three_visual_motor_long, baseline_number, score)
+```
+
+#### Outliers 
+
+Of the 99 scores identified to be outliers, none are considered extreme. 
+
+```{r, include=FALSE}
+three_visual_motor_outliers <- three_visual_motor_long %>% 
+  group_by(baseline_number) %>% 
+  identify_outliers(score) %>% 
+  select(-c(3:5))
+
+three_visual_motor_outliers %>% 
+  count(is.outlier)
+
+three_visual_motor_outliers %>% 
+  count(is.extreme)
+```
+
+```{r, include=TRUE}
+three_visual_motor_outliers %>% 
+  reactable()
+```
+
+#### Normality Assumption
+
+From the plot, normality is assumed. 
+
+```{r, include=TRUE, fig.width=10}
+ggplot(three_visual_motor_long, aes(sample = score)) +
+  stat_qq(alpha = 0.3) +
+  stat_qq_line() +
+  facet_wrap(~baseline_number)
+```
+
+#### ANOVA Computation
+
+```{r, include=FALSE}
+three_visual_motor_res <- anova_test(three_visual_motor_long, 
+                                   dv = score,
+                                   wid = passport_id, 
+                                   within = baseline_number)
+
+```
+
+```{r, include=TRUE}
+get_anova_table(three_visual_motor_res)
+```
+
+#### Pairwise Comparisons 
+
+```{r, include=FALSE}
+three_visual_motor_pwc <- three_visual_motor_long %>% 
+  pairwise_t_test(
+    score ~ baseline_number, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+three_visual_motor_pwc
+```
+
+```{r, include=TRUE}
+three_visual_motor_pwc %>% 
+  reactable()
+```
+
+#### Result Visualization
+```{r, include=FALSE}
+three_visual_motor_pwc <- three_visual_motor_pwc %>% 
+  add_xy_position(x = "baseline number")
+```
+
+```{r, include=TRUE}
+box_p(three_visual_motor_long, baseline_number, score) +
+  stat_pvalue_manual(three_visual_motor_pwc) +
+  labs(
+    subtitle = get_test_label(three_visual_motor_res, detailed = TRUE),
+    caption = get_pwc_label(three_visual_motor_pwc)
+  )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(three_visual_motor, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(three_visual_motor, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(three_visual_motor, user_visual_motor_composite_score_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(three_visual_motor, user_visual_motor_composite_score_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(three_visual_motor, user_visual_motor_composite_score_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(three_visual_motor, user_visual_motor_composite_score_3)
+```
+
+
+### Four Baseline Tests {.tabset .tabset-fade .tabset-pills}
+
+For individuals who completed four baseline tests (*n* = 420), performance on the visual motor composite score was statistically significantly different, *F*(2.88, 1,208.07) = 266.59, *p* < .0001, generalized eta squared = 0.13. 
+
+All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. All six pairwise comparisons between baseline test administrations were statistically significantly different (*p* < .05). Individuals were identified to achieve their greatest reaction time score on the fourth baseline administration (*M* = 40.03) compared to the third (*M* = 38.25), second (*M* = 35.87) and first (*M* = 33.09) baseline administrations. 
+
+```{r, include=FALSE}
+four_visual_motor_long <- four_visual_motor %>% 
+  pivot_longer(
+    cols = c(6:9),
+    names_to = "baseline_number",
+    names_prefix = "user_visual_motor_composite_",
+    values_to = "score"
+  )
+```
+
+#### Boxplot
+
+```{r, include=TRUE}
+box_p(four_visual_motor_long, baseline_number, score)
+```
+
+#### Outliers 
+
+Of the 19 scores identified to be outliers, none are considered extreme. 
+
+```{r, include=FALSE}
+four_visual_motor_outliers <- four_visual_motor_long %>% 
+  group_by(baseline_number) %>% 
+  identify_outliers(score) %>% 
+  select(-c(3:6))
+
+four_visual_motor_outliers %>% 
+  count(is.outlier)
+
+four_visual_motor_outliers %>% 
+  count(is.extreme)
+```
+
+```{r, include=TRUE}
+four_reaction_time_outliers %>% 
+  reactable()
+```
+
+#### Normality Assumption
+
+From the plot, normality is assumed.  
+
+```{r, include=TRUE, fig.width=10}
+ggplot(four_visual_motor_long, aes(sample = score)) +
+  stat_qq(alpha = 0.3) +
+  stat_qq_line() +
+  facet_wrap(~baseline_number)
+```
+
+#### ANOVA Computation
+
+```{r, include=FALSE}
+four_visual_motor_res <- anova_test(four_visual_motor_long, 
+                                   dv = score,
+                                   wid = passport_id, 
+                                   within = baseline_number)
+
+```
+
+```{r, include=TRUE}
+get_anova_table(four_visual_motor_res) 
+```
+
+#### Pairwise Comparisons 
+
+```{r, include=FALSE}
+four_visual_motor_pwc <- four_visual_motor_long %>% 
+  pairwise_t_test(
+    score ~ baseline_number, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+four_visual_motor_pwc
+```
+
+```{r, include=TRUE}
+four_visual_motor_pwc %>% 
+  reactable()
+```
+
+#### Result Visualization
+```{r, include=FALSE}
+four_visual_motor_pwc <- four_visual_motor_pwc %>% 
+  add_xy_position(x = "baseline number")
+```
+
+```{r, include=TRUE}
+box_p(four_visual_motor_long, baseline_number, score) +
+  stat_pvalue_manual(four_visual_motor_pwc) +
+  labs(
+    subtitle = get_test_label(four_visual_motor_res, detailed = TRUE),
+    caption = get_pwc_label(four_visual_motor_pwc)
+  )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(four_visual_motor, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(four_visual_motor, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(four_visual_motor, user_visual_motor_composite_score_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(four_visual_motor, user_visual_motor_composite_score_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(four_visual_motor, user_visual_motor_composite_score_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(four_visual_motor, user_visual_motor_composite_score_3)
+```
+
+#### Baseline 4 Summary
+```{r, include=TRUE}
+create_react(four_visual_motor, user_visual_motor_composite_score_4)
+```
+
+#### Baseline 4 Histogram 
+```{r, include=TRUE}
+score_hist(four_visual_motor, user_visual_motor_composite_score_4)
+```
+
+
+### Five Baseline Tests {.tabset .tabset-fade .tabset-pills}
+
+For individuals who completed five baseline tests (*n* = 78), performance on the visual motor composite score was statistically significantly different, *F*(4, 308) = 40.14, *p* < .0001, generalized eta squared = 0.13. 
+
+All possible pairwise comparisons were evaluated using the *Bonferroni* procedure to control family-wise Type I error. Seven out of ten pairwise comparisons were statistically significantly different. Individuals were identified to achieve significantly greater reaction time scores on their third (*M* = 37.47), fourth (*M* = 38.90), and fifth (*M* = 39.28) baseline administrations compared to their first (*M* = 32.30) and second (*M* = 35.08) baseline administrations. The difference between first and second baseline administrations was additionally significant. There were no significant differences between the third, fourth, and fifth baseline administrations. 
+ 
+
+```{r, include=FALSE}
+five_visual_motor_long <- five_visual_motor %>% 
+  pivot_longer(
+    cols = c(7:11),
+    names_to = "baseline_number",
+    names_prefix = "user_visual_motor_composite_",
+    values_to = "score"
+  )
+```
+
+#### Boxplot
+
+```{r, include=TRUE}
+box_p(five_visual_motor_long, baseline_number, score)
+```
+
+#### Outliers 
+
+Of the 10 scores identified as outliers, none are considered extreme.  
+
+```{r, include=FALSE}
+five_visual_motor_outliers <- five_visual_motor_long %>% 
+  group_by(baseline_number) %>% 
+  identify_outliers(score) %>% 
+  select(-c(3:7))
+
+five_visual_motor_outliers %>% 
+  count(is.outlier)
+
+five_visual_motor_outliers %>% 
+  count(is.extreme)
+```
+
+```{r, include=TRUE}
+five_visual_motor_outliers %>% 
+  reactable()
+```
+
+#### Normality Assumption
+
+From the plot, normality is assumed. 
+
+```{r, include=TRUE, fig.width=10}
+ggplot(five_visual_motor_long, aes(sample = score)) +
+  stat_qq(alpha = 0.3) +
+  stat_qq_line() +
+  facet_wrap(~baseline_number)
+```
+
+#### ANOVA Computation
+
+```{r, include=FALSE}
+five_visual_motor_res <- anova_test(five_visual_motor_long, 
+                                   dv = score,
+                                   wid = passport_id, 
+                                   within = baseline_number)
+
+```
+
+```{r, include=TRUE}
+get_anova_table(five_visual_motor_res)
+```
+
+#### Pairwise Comparisons 
+
+```{r, include=FALSE}
+five_visual_motor_pwc <- five_visual_motor_long %>% 
+  pairwise_t_test(
+    score ~ baseline_number, paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+
+five_visual_motor_pwc
+```
+
+```{r, include=TRUE}
+five_visual_motor_pwc %>% 
+  reactable()
+```
+
+#### Result Visualization
+```{r, include=FALSE}
+five_visual_motor_pwc <- five_visual_motor_pwc %>% 
+  add_xy_position(x = "baseline number")
+```
+
+```{r, include=TRUE}
+box_p(five_visual_motor_long, baseline_number, score) +
+  stat_pvalue_manual(five_visual_motor_pwc) +
+  labs(
+    subtitle = get_test_label(five_visual_motor_res, detailed = TRUE),
+    caption = get_pwc_label(five_visual_motor_pwc)
+  )
+```
+
+#### Baseline 1 Summary
+```{r, include=TRUE}
+create_react(five_visual_motor, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 1 Histogram 
+```{r, include=TRUE}
+score_hist(five_visual_motor, user_visual_motor_composite_score_1)
+```
+
+#### Baseline 2 Summary
+```{r, include=TRUE}
+create_react(five_visual_motor, user_visual_motor_composite_score_2)
+```
+
+#### Baseline 2 Histogram 
+```{r, include=TRUE}
+score_hist(five_visual_motor, user_visual_motor_composite_score_2)
+```
+
+#### Baseline 3 Summary
+```{r, include=TRUE}
+create_react(five_visual_motor, user_visual_motor_composite_score_3)
+```
+
+#### Baseline 3 Histogram 
+```{r, include=TRUE}
+score_hist(five_visual_motor, user_visual_motor_composite_score_3)
+```
+
+#### Baseline 4 Summary
+```{r, include=TRUE}
+create_react(five_visual_motor, user_visual_motor_composite_score_4)
+```
+
+#### Baseline 4 Histogram 
+```{r, include=TRUE}
+score_hist(five_visual_motor, user_visual_motor_composite_score_4)
+```
+
+#### Baseline 5 Summary
+```{r, include=TRUE}
+create_react(five_visual_motor, user_visual_motor_composite_score_5)
+```
+
+#### Baseline 5 Histogram 
+```{r, include=TRUE}
+score_hist(five_visual_motor, user_visual_motor_composite_score_5)
+```
+
+
+## ANOVA Summary
+
+Overall, the results of the ANOVA calculations suggest individuals achieved higher scores on consecutive baseline testing across the verbal memory, visual memory, reaction time, and visual motor composite scores. Because of the differences in sample size across each group, there was more statistical power to identify significant differences in the testing performance of individuals who completed either three or four baseline test administrations. 
 
 
 
