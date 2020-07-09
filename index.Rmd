@@ -1,5 +1,5 @@
 ---
-title: "HCAMP Baseline Data"
+title: "HCAMP Baseline IMPACT Data"
 output:
   html_document:
     toc: true
@@ -33,7 +33,7 @@ library(ggpubr)
 
 theme_set(theme_minimal(15) +
             theme(legend.position = "bottom",
-                  panel.grid.major.x = element_line(colour = "gray60"),
+                  panel.grid.major.x = element_line(color = "gray60"),
                   panel.grid.minor.x = element_blank(),
                   panel.grid.major.y = element_blank())
           )
@@ -514,9 +514,6 @@ score_hist <- function(df, x) {
                 color = "white", 
                 alpha = 0.9,
                 bins = 25) +
-  theme(panel.grid.major.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_line(color = "gray80")) +
     labs(x = "Test Score",
          y = "Number of Individuals")
 }
@@ -599,9 +596,6 @@ ggplot(mem_verbal, aes(memory_verbal_diff)) +
                 color = "white", 
                 alpha = 0.9,
                 bins = 25) +
-  theme(panel.grid.major.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_line(color = "gray80")) +
   labs(x = "Point Increase on Baseline 2",
        y = "Number of Individuals")
 
@@ -611,9 +605,6 @@ score_diff_hist <- function(df, x) {
                 color = "white", 
                 alpha = 0.9,
                 bins = 25) +
-  theme(panel.grid.major.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_line(color = "gray80")) +
     labs(x = "Point Increase on Baseline 2",
          y = "Number of Individuals")
 }
@@ -628,9 +619,6 @@ percent_inc_hist <- function(df, x) {
                 alpha = 0.9,
                 bins = 100) +
   scale_x_continuous("Percent Increase on Baseline 2", labels = function(x) paste0(x, "%")) +
-  theme(panel.grid.major.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_line(color = "gray80")) +
     labs(x = "Percent Increase on Baseline 2",
          y = "Number of Individuals")
 }
@@ -642,9 +630,6 @@ percent_inc_density <- function(df, x) {
   geom_density(fill = "#56B4E9",
                bw = 15) +
   scale_x_continuous("Percent Increase on Baseline 2", labels = function(x) paste0(x, "%")) +
-  theme(panel.grid.major.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_line(color = "gray80")) +
     labs(x = "Percent Increase on Baseline 2",
          y = "Density")
 }
@@ -727,33 +712,6 @@ react_percent(baseline_all_positive, memory_verbal_percent_inc)
 percent_inc_density(baseline_all_positive, memory_verbal_percent_inc)
 ```
 
-### Verbal Memory Composite Score Raw Data
-
-The data set below contains the raw data for all individuals who achieved a higher Verbal Memory Composite Score on the second baseline test administration. 
-```{r, include=TRUE}
-mem_verbal %>% 
-  reactable(columns = list(
-    passport_id = colDef(name = "Individual"),
-    test_date_1 = colDef(name = "Baseline Date 1"),
-    test_date_2 = colDef(name = "Baseline Date 2"),
-    user_memory_composite_score_verbal_1 = colDef(name = "Baseline 1 Score"),
-    user_memory_composite_score_verbal_2 = colDef(name = "Baseline 2 Score"),
-    memory_verbal_diff = colDef(name = "Point Increase"),
-    memory_verbal_percent_inc = colDef(name = "Percent Increase",
-                                       format = colFormat(digits = 2, 
-                                                          separators = TRUE, 
-                                                          suffix = "%"))),
-    pagination = TRUE,
-    striped = TRUE,
-    outlined = TRUE,
-    compact = TRUE,
-    highlight = TRUE,
-    bordered = TRUE,
-    searchable = TRUE
-  )
-
-```
-
 
 ## Verbal Memory Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
 
@@ -772,18 +730,12 @@ mem_verbal_all_long <- mem_verbal_all %>%
 
 ggplot(mem_verbal_all_long, aes(baseline_time, score)) +
   geom_boxplot() +
-  theme(panel.grid.major.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_line(color = "gray80")) +
     labs(x = "",
          y = "Score")
 
 box_p <- function(df, x, y) {
   ggplot(df, aes({{x}}, {{y}})) +
   geom_boxplot() +
-  theme(panel.grid.major.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_line(color = "gray80")) +
     labs(x = "",
          y = "Score")
 }
@@ -809,7 +761,8 @@ mean_2(mem_verbal_all$user_memory_composite_score_verbal_2)
 
 ### Boxplot
 ```{r, include=TRUE}
-box_p(mem_verbal_all_long, baseline_time, score)
+box_p(mem_verbal_all_long, baseline_time, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
 ```
 
 ### *T*-Test Results
@@ -957,32 +910,6 @@ react_percent(baseline_all_positive, memory_visual_percent_inc)
 percent_inc_density(baseline_all_positive, memory_visual_percent_inc)
 ```
 
-### Visual Memory Composite Score Raw Data
-
-The data set below contains the raw data for all individuals who achieved a higher Visual Memory Composite Score on the second baseline test administration. 
-```{r, include=TRUE}
-mem_visual %>% 
-  reactable(columns = list(
-    passport_id = colDef(name = "Individual"),
-    test_date_1 = colDef(name = "Baseline Date 1"),
-    test_date_2 = colDef(name = "Baseline Date 2"),
-    user_memory_composite_score_visual_1 = colDef(name = "Baseline 1 Score"),
-    user_memory_composite_score_visual_2 = colDef(name = "Baseline 2 Score"),
-    memory_visual_diff = colDef(name = "Point Increase"),
-    memory_visual_percent_inc = colDef(name = "Percent Increase",
-                                       format = colFormat(digits = 2, 
-                                                          separators = TRUE, 
-                                                          suffix = "%"))),
-    pagination = TRUE,
-    striped = TRUE,
-    outlined = TRUE,
-    compact = TRUE,
-    highlight = TRUE,
-    bordered = TRUE,
-    searchable = TRUE
-  )
-```
-
 
 ## Visual Memory Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
 A paired *T*-test was used to compare the mean visual memory composite scores of all 18,739 individuals who completed two baseline assessments. On average, individuals scored significantly higher on the second baseline test administration (*M* = 76.14) than the first baseline test administration (*M* = 72.5), *t*(18738) = -38.047, *p* < .01. 
@@ -1009,7 +936,8 @@ mean_2(mem_visual_all$user_memory_composite_score_visual_2)
 
 ### Boxplot
 ```{r, include=TRUE}
-box_p(mem_visual_all_long, baseline_time, score)
+box_p(mem_visual_all_long, baseline_time, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
 ```
 
 ### *T*-Test Results
@@ -1168,33 +1096,6 @@ react_percent(ic_all_p, impulse_control_percent_inc)
 percent_inc_density(ic_all_p, impulse_control_percent_inc)
 ```
 
-### Impulse Control Composite Score Raw Data
-
-The data set below contains the raw data for all individuals who achieved a higher Impulse Control Composite Score on the second baseline test administration. 
-```{r, include=TRUE}
-impulse_control %>% 
-  reactable(columns = list(
-    passport_id = colDef(name = "Individual"),
-    test_date_1 = colDef(name = "Baseline Date 1"),
-    test_date_2 = colDef(name = "Baseline Date 2"),
-    user_impulse_control_composite_score_1 = colDef(name = "Baseline 1 Score"),
-    user_impulse_control_composite_score_2 = colDef(name = "Baseline 2 Score"),
-    impulse_control_diff = colDef(name = "Point Increase"),
-    impulse_control_percent_inc = colDef(name = "Percent Increase",
-                                       format = colFormat(digits = 2, 
-                                                          separators = TRUE, 
-                                                          suffix = "%"))),
-    pagination = TRUE,
-    striped = TRUE,
-    outlined = TRUE,
-    compact = TRUE,
-    highlight = TRUE,
-    bordered = TRUE,
-    searchable = TRUE
-  )
-
-```
-
 
 ## Impulse Control Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
 A paired *T*-test was used to compare the impulse control composite scores of all 18,739 individuals who completed two baseline assessments. On average, individuals scored significantly higher on the first baseline test administration (*M* = 7.41) than the second baseline test administration (*M* = 6.99), *t*(18738) = 10.641, *p* < .001.
@@ -1222,7 +1123,8 @@ mean_2(impulse_control_all$user_impulse_control_composite_score_2)
 
 ### Boxplot
 ```{r, include=TRUE}
-box_p(impulse_control_all_long, baseline_time, score)
+box_p(impulse_control_all_long, baseline_time, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
 ```
 
 ### *T*-Test Results
@@ -1300,9 +1202,6 @@ ggplot(reaction_time, aes(reaction_time_diff)) +
                 color = "white", 
                 alpha = 0.9,
                 bins = 25) +
-  theme(panel.grid.major.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_line(color = "gray80")) +
   labs(x = "Point Decrease on Baseline 2",
        y = "Number of Individuals")
 ```
@@ -1321,9 +1220,6 @@ ggplot(reaction_time, aes(reaction_time_percent_dec)) +
   geom_density(fill = "#56B4E9",
                bw = 15) +
   scale_x_continuous("Percent Decrease on Baseline 2", labels = function(x) paste0(x, "%")) +
-  theme(panel.grid.major.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_line(color = "gray80")) +
     labs(x = "Percent Decrease on Baseline 2",
          y = "Density")
 ```
@@ -1376,9 +1272,6 @@ ggplot(baseline_all_positive, aes(reaction_time_diff)) +
                 color = "white", 
                 alpha = 0.9,
                 bins = 25) +
-  theme(panel.grid.major.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_line(color = "gray80")) +
   labs(x = "Point Decrease on Baseline 2",
        y = "Number of Individuals")
 ```
@@ -1397,37 +1290,8 @@ ggplot(baseline_all_positive, aes(reaction_time_percent_dec)) +
   geom_density(fill = "#56B4E9",
                bw = 15) +
   scale_x_continuous("Percent Decrease on Baseline 2", labels = function(x) paste0(x, "%")) +
-  theme(panel.grid.major.y = element_blank(),
-        panel.grid.minor.x = element_blank(),
-        panel.grid.major.x = element_line(color = "gray80")) +
     labs(x = "Percent Decrease on Baseline 2",
          y = "Density")
-```
-
-### Reaction Time Composite Score Raw Data
-
-The data set below contains the raw data for all individuals who achieved a higher Reaction Time Composite Score on the second baseline test administration. 
-```{r, include=TRUE}
-reaction_time %>% 
-  reactable(columns = list(
-    passport_id = colDef(name = "Individual"),
-    test_date_1 = colDef(name = "Baseline Date 1"),
-    test_date_2 = colDef(name = "Baseline Date 2"),
-    user_reaction_time_composite_score_1 = colDef(name = "Baseline 1 Score"),
-    user_reaction_time_composite_score_2 = colDef(name = "Baseline 2 Score"),
-    reaction_time_diff = colDef(name = "Point Decrease"),
-    reaction_time_percent_dec = colDef(name = "Percent Decrease",
-                                       format = colFormat(digits = 2, 
-                                                          separators = TRUE, 
-                                                          suffix = "%"))),
-    pagination = TRUE,
-    striped = TRUE,
-    outlined = TRUE,
-    compact = TRUE,
-    highlight = TRUE,
-    bordered = TRUE,
-    searchable = TRUE
-  )
 ```
 
 
@@ -1456,7 +1320,8 @@ mean_2(reaction_time_all$user_reaction_time_composite_score_2)
 
 ### Boxplot
 ```{r, include=TRUE}
-box_p(reaction_time_all_long, baseline_time, score)
+box_p(reaction_time_all_long, baseline_time, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
 ```
 
 ### *T*-Test Results
@@ -1604,31 +1469,6 @@ react_percent(baseline_all_positive, visual_motor_percent_inc)
 percent_inc_density(baseline_all_positive, visual_motor_percent_inc)
 ```
 
-### Visual Motor Composite Score Raw Data
-
-The data set below contains the raw data for all individuals who achieved a higher Visual Motor Composite Score on the second baseline test administration. 
-```{r, include=TRUE}
-visual_motor %>% 
-  reactable(columns = list(
-    passport_id = colDef(name = "Individual"),
-    test_date_1 = colDef(name = "Baseline Date 1"),
-    test_date_2 = colDef(name = "Baseline Date 2"),
-    user_visual_motor_composite_score_1 = colDef(name = "Baseline 1 Score"),
-    user_visual_motor_composite_score_2 = colDef(name = "Baseline 2 Score"),
-    visual_motor_diff = colDef(name = "Point Increase"),
-    visual_motor_percent_inc = colDef(name = "Percent Increase",
-                                       format = colFormat(digits = 2, 
-                                                          separators = TRUE, 
-                                                          suffix = "%"))),
-    pagination = TRUE,
-    striped = TRUE,
-    outlined = TRUE,
-    compact = TRUE,
-    highlight = TRUE,
-    bordered = TRUE,
-    searchable = TRUE
-  )
-```
 
 ## Visual Motor Paired *T*-Test Results {.tabset .tabset-fade .tabset-pills}
 A paired *T*-test was used to compare the reaction time composite scores of all 18,739 individuals who completed two baseline assessments. On average, individuals scored significantly higher on the second baseline test administration (*M* = 37.64) than the first baseline test administration (*M* = 34.15), *t*(18738) = -89.275, *p* < .01. 
@@ -1655,7 +1495,8 @@ mean_2(visual_motor_all$user_visual_motor_composite_score_2)
 
 ### Boxplot
 ```{r, include=TRUE}
-box_p(visual_motor_all_long, baseline_time, score)
+box_p(visual_motor_all_long, baseline_time, score) +
+  stat_compare_means(method = "t.test", paired = TRUE, hjust = -0.5)
 ```
 
 ### *T*-Test Results
