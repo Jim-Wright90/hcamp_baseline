@@ -1528,7 +1528,7 @@ score_hist(visual_motor_all, user_visual_motor_composite_score_2)
 The results of the paired *t*-tests across all five composite scores for comparison of baseline performance identified that individuals, on average, improved their score on the second baseline test administration of the verbal memory, visual memory, reaction time and visual motor composites. Conversely, individuals were identified to score, on average, significantly higher on the first baseline test administration of the impulse control composite. 
 
 
-# Is there a significant difference in baseline test performance in individuals who completed multiple (more than 2) baseline test administrations? 
+# Is there a significant difference in baseline test performance for individuals who completed multiple (more than 2) baseline test administrations? 
 ```{r, multiple baselines, include=FALSE}
 head(multiple_baseline)
 
